@@ -17,8 +17,8 @@ urllib.request.install_opener(open)
 
 os.system("cls")
 
-#folder_name = str(input("Folder Name : "))
-#name = folder_name.capitalize()
+folder_name = str(input("Folder Name : "))
+name = folder_name.capitalize()
 
 def image(i,url,file_path):
 
@@ -31,10 +31,10 @@ def image(i,url,file_path):
 FILENAME = 'url.csv'#watch out if the file not in the same folder this code cannot execute
 FILE_PATH = 'Manga/'
 
-
+#for put where is the file should be putting
 path = os.path.join(FILE_PATH,'')
 urls = pd.read_csv(FILENAME)
-#os.mkdir(path)
+os.mkdir(path)
 
 
 #Progses bar
