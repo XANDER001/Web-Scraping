@@ -5,13 +5,14 @@ import time
 import random
 import os
 import csv
+import pathlib
 from tqdm import tqdm
 from fake_useragent import UserAgent
 # program version 2
 os.system('cls')
 #Storage CSV after Scraping
 # there's problem when VSCode debugging this code 
-filecsv = os.path.basename('url.csv')
+filecsv = pathlib.Path(__file__).parent.joinpath('url.csv')
 # read how many row in csv file and also to count how much images will be downloaded
 def csv_store():
     with open(filecsv,'r') as f:
@@ -22,7 +23,7 @@ def csv_store():
             result = csvreader.line_num
             csv_store.final_result = result - 1
 # Directory
-all_in_one = 'Manga'
+all_in_one = pathlib.Path(__file__).parent.joinpath('Manga')
 # to know how many folder inside Manga
 check_data = os.listdir(all_in_one)
 
@@ -98,7 +99,9 @@ while True:
             else:
                 print("\nOut of Option\n")
     else:
-        print("Folder Not Valid")
+        print("That's not folder")
+        exit()
+        break
 
 print("""1.jpg\n2.png""")
 while True:
