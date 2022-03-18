@@ -1,4 +1,4 @@
-﻿import requests
+import requests
 import urllib3
 import pandas as pd
 import time
