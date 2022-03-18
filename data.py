@@ -22,7 +22,7 @@ def ero(soup):
 
 def all(soup):
     title = soup.title.string
-    for i in soup.findAll('img',{'class':'wp-manga-chapter-img img-responsive lazyload effect-fade'}):
+    for i in soup.findAll('img',class_='wp-manga-chapter-img img-responsive lazyload effect-fade'):
         update_url = i.get('data-src')
         fix_url = update_url.replace('?ssl=1','')
         fix_url2 = fix_url.replace("\t","")
@@ -81,7 +81,7 @@ def xxx(soup):
             f.write("\n")
 
 def free(soup):
-    for i in soup.findAll('div',{'class':'post-texto'}):
+    for i in soup.findAll('div',class_='post-texto'):
         for j in i.find_all('img'):
             f.write(j.get('src'))
             f.write("\n")
@@ -266,6 +266,7 @@ def alternative():
             for i in range(1,page+1):
                 result = a+f"{i}\n"
                 f.write(result)
+                
 # add def code using the name of function without ()
 menu_code = ("""ero all hd muses xonline egg xlecx xyz xxx free nhentai 
 manga shikorina d3 porncomixone asm wozi freecomics cartoon18 comic_18 doujins imhentai 
