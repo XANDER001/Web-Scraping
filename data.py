@@ -1,3 +1,4 @@
+from logging import WARNING, warning
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 import urllib3
@@ -302,17 +303,27 @@ if __name__ == "__main__":
         elif command >= len(menu_code)+3:
             exit()
         try:
+            # algorthm
+            len_list = []
+            for i in range(0,len(menu_code)):
+                len_list.append(i+1)
+
             ssl._create_default_https_context = ssl._create_unverified_context
             link = str(input("URL : "))
             http = urllib3.PoolManager()
             head = {"User-Agent":x.random}
             response = http.request("GET",link,headers=head)
             soup = BeautifulSoup(response.data,"html.parser")
+            # zipping to dict 
+            diro = dict(zip(len_list,menu_code))
+            # convert string to function name
+            defi = eval(diro[command])
+
             if response.status == 200:
                 with open("url.csv","w") as f:
                     f.write("pass\n")
                     #call function
-                    menu_code[command-1](soup)
+                    defi(soup)
                 print(f"Time : {time.process_time():.2f} Second")
             elif response.status == 404:
                 print("Not Found")
