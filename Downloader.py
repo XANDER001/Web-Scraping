@@ -2,7 +2,6 @@ import requests
 import urllib3
 import pandas as pd
 import time
-import random
 import os
 import csv
 import pathlib
@@ -11,7 +10,6 @@ from fake_useragent import UserAgent
 # program version 2
 os.system('cls')
 #Storage CSV after Scraping
-# there's problem when VSCode debugging this code 
 filecsv = pathlib.Path(__file__).parent.joinpath('url.csv')
 # read how many row in csv file and also to count how much images will be downloaded
 def csv_store():
@@ -81,11 +79,12 @@ while True:
             break
         
         except IndexError as idx:
-                new_folder = str(input("New Folder Name : "))
-                full_path = os.path.join(all_in_one,Access_list,new_folder)
-                os.mkdir(full_path)
-                c = 1
-                break
+            # making the new folder
+            new_folder = str(input("New Folder Name : "))
+            full_path = os.path.join(all_in_one,Access_list,new_folder)
+            os.mkdir(full_path)
+            c = 1
+            break
 
         except FileExistsError as fe:
             # This code to contine downloader
