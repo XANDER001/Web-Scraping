@@ -7,9 +7,8 @@ import csv
 import pathlib
 from tqdm import tqdm
 from fake_useragent import UserAgent
-# program version 2
+
 os.system('cls')
-#Storage CSV after Scraping
 filecsv = pathlib.Path(__file__).parent.joinpath('url.csv')
 # read how many row in csv file and also to count how much images will be downloaded
 def csv_store():
@@ -20,6 +19,15 @@ def csv_store():
             row.append(row)
             result = csvreader.line_num
             csv_store.final_result = result - 1
+
+def count_time(xl):
+    if xl < 60:
+        print(f"Time : {xl} Second")
+    elif xl >= 60:
+        print(f"Time : {xl/60:.2f} Minute")
+    elif xl >= 3600:
+        print(f"Time : {xl/3600:.2f} Hour")
+
 # Directory
 all_in_one = pathlib.Path(__file__).parent.joinpath('Manga')
 # to know how many folder inside Manga
@@ -69,22 +77,28 @@ while True:
         try:
             # join and make folder
             print("\nNote: if you input numberic more then menu list can make new folder")
-            folder = int(input("Enter Option : "))
-            folder -= 1
-            # for exception indexerror
-            h = dir_option[folder]
-            # for exception fileexistserror
-            full_path = os.path.join(all_in_one,Access_list,h)
-            os.mkdir(full_path)
-            break
+            try:
+                folder = int(input("Enter Option : "))
+                folder -= 1
+                # for exception indexerror
+                h = dir_option[folder]
+                # for exception fileexistserror
+                full_path = os.path.join(all_in_one,Access_list,h)
+                os.mkdir(full_path)
+                break
+            except ValueError as n :
+                print("only numeric")
         
         except IndexError as idx:
             # making the new folder
             new_folder = str(input("New Folder Name : "))
             full_path = os.path.join(all_in_one,Access_list,new_folder)
-            os.mkdir(full_path)
-            c = 1
-            break
+            try:
+                os.mkdir(full_path)
+                c = 1
+                break
+            except FileExistsError as check_name:
+                print("\n== Folder Already Exist ==")
 
         except FileExistsError as fe:
             # This code to contine downloader
@@ -100,7 +114,6 @@ while True:
     else:
         print("That's not folder")
         exit()
-        break
 
 print("""1.jpg\n2.png""")
 while True:
@@ -150,7 +163,7 @@ except requests.exceptions.SSLError as sle:
         with tqdm(total=csv_store.final_result) as pbar:
             for i,url in enumerate(urls.values,c):
                 head = {'User-Agent':x.random}
-                response = requests.get(url[0], headers=head,stream = True,verify=False)
+                response = requests.get(url[0],headers=head,stream=True,verify=False)
                 with open(f"{full_path}\\{i}.{fmg}",'wb') as f:
                     if response.status_code == 200:
                         f.write(response.content)
@@ -164,8 +177,14 @@ except requests.exceptions.SSLError as sle:
     else:
         exit()
 
+# get size downloader
+size = 0
+for ele in os.scandir(full_path):
+    size+=os.path.getsize(ele)
+print(f"Size : {size/1000000} Mb")
+
 result_time = int(time.time()-start_time)
-print(f"Time : {result_time/60:.2f} Minute")
+count_time(result_time)
 print("\n")
 print("+++++++++++++++++++++++++++++++++++++++")
 print("+█▀▀ █▀▀█ █▀▄▀█ █▀▀█ █   █▀▀ ▀▀█▀▀ █▀▀+")
