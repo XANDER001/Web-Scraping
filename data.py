@@ -1,4 +1,3 @@
-from logging import WARNING, warning
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 import urllib3
@@ -21,16 +20,6 @@ def ero(soup):
                 f.write(full_url)
                 f.write("\n")
 
-def all(soup):
-    title = soup.title.string
-    for i in soup.findAll('img',class_='wp-manga-chapter-img img-responsive lazyload effect-fade'):
-        update_url = i.get('data-src')
-        fix_url = update_url.replace('?ssl=1','')
-        fix_url2 = fix_url.replace("\t","")
-        final = fix_url2.replace("\n","")
-        f.write(final)
-        f.write("\n")
-
 def hd(soup):
     for i in soup.findAll('div',class_='my-gallery scrollmenu pt-2'):
         for figure in i.find_all('a',href=True):
@@ -46,7 +35,6 @@ def muses(soup):
             f.write(change_url)
             f.write("\n")
         
-
 def xonline(soup):
     for j in soup.find_all(id='jig1'):
         for x in j.find_all(id='jig1-html'):
@@ -219,8 +207,13 @@ def alternative():
     example : before = https://*/*/*/1.jpg
               after  = https://*/*/*/
     """)
-    a             = str(input("URL       : "))
-    page          = int(input("Pages     : "))
+    a = str(input("URL       : "))
+    while True:
+        try:
+            page = int(input("Pages     : "))
+            break
+        except ValueError as xl:
+            print("Numeric")
     print("""
     Format Number is how the link number goes : 
     1.x   = 1   for image
@@ -269,22 +262,20 @@ def alternative():
                 f.write(result)
                 
 # add def code using the name of function without ()
-menu_code = ("""ero all hd muses xonline egg xlecx xyz xxx free nhentai 
+menu_code = ("""ero hentaihere hd muses xonline egg xlecx xyz xxx free nhentai 
 manga shikorina d3 porncomixone asm wozi freecomics cartoon18 comic_18 doujins imhentai 
-hentaihere
 """).split()
 
 if __name__ == "__main__":
-    # like not complete
     print("""
 ====================================================================
 |                          List Website                            |
 ====================================================================
 | [1]  erofus               [11] nhentai          [21] doujins     |
-| [2]  allporncomic (block) [12] xxxmangacomics   [22] ImHentai    |
-| [3]  hdporncomic          [13] shikorina        [23] HentaiHere  |
-| [4]  8muses               [14] porn3d           [24] Alternative |
-| [5]  porncomixonline      [15] porncomixone     [25] Exit        |
+| [2]  HentaiHere           [12] xxxmangacomics   [22] ImHentai    |
+| [3]  hdporncomic          [13] shikorina        [23] Alternative |
+| [4]  8muses               [14] porn3d           [24] Exit        |
+| [5]  porncomixonline      [15] porncomixone                      |
 | [6]  eggporncomics        [16] asmhentai                         |
 | [7]  xlecx                [17] wozi                              |
 | [8]  xyzcomics            [18] freeporncomics                    |
@@ -293,17 +284,24 @@ if __name__ == "__main__":
 ====================================================================""")
     x = UserAgent()
     while True:
-        command = int(input("> "))
-        if command == len(menu_code)+2:
-            print("Thank You For Using My Code")
-            break
-        elif command == len(menu_code)+1:
-            alternative()
-            break
-        elif command >= len(menu_code)+3:
-            exit()
+        while True:
+            try:
+                command = int(input("> "))
+                if command == len(menu_code)+2:
+                    print("Thank You For Using My Code")
+                    exit()
+                elif command == len(menu_code)+1:
+                    alternative()
+                    exit()
+                elif command > len(menu_code)+3:
+                    # exit()
+                    print("Out Of The Option")
+                else:
+                    break
+            except ValueError as vr:
+                print("Only numeric")
         try:
-            # algorthm
+            # make range number of the menu_code
             len_list = []
             for i in range(0,len(menu_code)):
                 len_list.append(i+1)
@@ -318,7 +316,6 @@ if __name__ == "__main__":
             diro = dict(zip(len_list,menu_code))
             # convert string to function name
             defi = eval(diro[command])
-
             if response.status == 200:
                 with open("url.csv","w") as f:
                     f.write("pass\n")
@@ -333,9 +330,9 @@ if __name__ == "__main__":
                 print("Problem found : ",response.status)
         except ConnectionError as res:
             print("Connection Error")
-            
-        print("+++++++++++++++++++++++++++++++++++++++")
-        print("+█▀▀ █▀▀█ █▀▄▀█ █▀▀█ █   █▀▀ ▀▀█▀▀ █▀▀+")
-        print("+█   █  █ █ ▀ █ █  █ █   █▀▀   █   █▀▀+")
-        print("+▀▀▀ ▀▀▀▀ ▀   ▀ █▀▀▀ ▀▀▀ ▀▀▀   ▀   ▀▀▀+")
-        print("+++++++++++++++++++++++++++++++++++++++")
+
+            print("+++++++++++++++++++++++++++++++++++++++")
+            print("+█▀▀ █▀▀█ █▀▄▀█ █▀▀█ █   █▀▀ ▀▀█▀▀ █▀▀+")
+            print("+█   █  █ █ ▀ █ █  █ █   █▀▀   █   █▀▀+")
+            print("+▀▀▀ ▀▀▀▀ ▀   ▀ █▀▀▀ ▀▀▀ ▀▀▀   ▀   ▀▀▀+")
+            print("+++++++++++++++++++++++++++++++++++++++")
